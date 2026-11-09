@@ -1,0 +1,152 @@
+@charset "UTF8";
+
+body {
+    background-color: rgb(199, 68, 68);
+    font-size: 16px;
+}
+
+#documento{
+    margin: 0 auto;
+    background-color: #80ffce;
+    width: 90%;
+}
+header{
+    background-color: #f1d116;
+    padding: 5px;
+}
+header #logo{
+    width: 75px;
+    height: 50px;
+}
+header #titulo{
+    font-size: 1.3em;
+    font-style: italic;
+}
+
+#barraUbicacion{
+    background-color: #14e76c;
+    color:white;
+    padding: 5px;
+}
+
+#barraUbicacion a:link,#barraUbicacion a:visited{
+    text-decoration: none;
+    background-color: #14b2e7;
+    color:white;
+
+}
+#barraUbicacion a:hover{
+    background-color: white;
+    color:#14b2e7;
+}
+
+#barraMenu {
+    padding: 8px 20px;
+    background-color: #3b5a4e;
+    border: 5 solid #0d0e0d;
+    border-radius:5px;
+}
+
+#barraMenu a,
+#barraMenu span {
+    color: #ffffff;
+    font-weight: 500;
+}
+
+#barraMenu a:link,#barraMenu a:visited {
+    text-decoration: none;
+}
+
+#barraMenu ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 16px;
+    padding: 0;
+}
+
+footer {
+   background-color: #14e78f;
+    padding: 5px;
+
+}
+
+.boton{
+    background-color: blue;
+    color:white;
+    border:thin black solid;
+}
+
+.boton a{
+    text-decoration: none;
+    color:white;
+}
+
+.boton a:visited{
+    text-decoration: none;
+    color:white;
+}
+
+.boton a:hover{
+    background-color:cyan;
+    color: black;
+}
+
+.boton:hover{
+    background-color:cyan;
+    color: black;
+}
+
+.tabla{
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+    background-color: white;
+}
+
+.tabla th{
+    background-color: teal;
+    color: blue;
+}
+.tabla tr.par{
+    background-color: black;
+    color: white;
+    
+}
+
+.tabla tr.impar{
+     background-color: rgb(201, 231, 245);
+    color: black;
+   
+}
+
+#pie{
+    background-color: #81e714;
+    color: blue;
+    font-size: 1.5 em;
+    padding: 5px;
+}
+
+.for_texto{
+    border:blue thin solid;
+    background-color: white;
+    padding: 2px;
+    margin:2px;
+    border-radius: 4px;
+}
+.error{
+    background-color: white;
+    color:red;
+    border:thin solid red;
+    padding:5px;
+}
+
+#logoZona{
+    width: 50px;
+
+}
+
+#cabecera{
+    display: flex;
+}
