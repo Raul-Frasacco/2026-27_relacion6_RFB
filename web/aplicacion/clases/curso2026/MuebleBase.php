@@ -32,6 +32,62 @@ abstract class  MuebleBase{
     }
 
     public function setFabricante(string $fabricante) : bool {
-          
+          if ($fabricante == ""){
+            $this->fabricante = "FuMa:";
+            return false;
+          }
+
+          if (str_starts_with($fabricante, "FuMa:")){
+            $this->fabricante = mb_substr($fabricante, 0, 30, 'UTF-8');
+          }else{
+            $this->fabricante = mb_substr(("FuMa:" . $fabricante), 0, 30, 'UTF-8');
+          }
+
+          return true;
+    }
+
+    public function setPais(string $pais) : bool {
+          if (validaCadena($pais,20,"") == false || $pais == ""){
+            $this->pais = "ESPAÑA";
+            return false;
+         }
+            $this->pais = $pais;
+            return true;
+    }
+
+    public function setAnio(?int $anio): bool {
+        if ($anio === null || $anio < 2020 || $anio > (int)date('Y')){
+            $this->anio = 2020;
+            return false;
+        }
+
+        $this->anio = $anio;
+        return true;
+    }
+
+    public function setFechaIniVenta(string $fechaIniVenta): bool{
+        if (!validaFecha($fechaIniVenta, "01/01/2020") || $fechaIniVenta == ""){
+            $this->fechaIniVenta = "01/01/" .$this->anio;
+            return false;
+        }
+
+         $arrayFecha = explode("/" , $fechaIniVenta);
+
+        $dia =(int)$arrayFecha[0];
+        $mes =(int)$arrayFecha[1];
+        $año =(int)$arrayFecha[2];
+
+        if (!checkdate($mes, $dia, $año)){
+            $this->fechaIniVenta = "01/01/".$this->anio;
+            return false;
+        }
+
+        if ($año < $this->anio){
+            $this->fechaIniVenta = "01/01/" . $this->anio;
+            return false;
+        }
+
+        $this->fechaIniVenta = $fechaIniVenta;
+        return true;
     }
 }
