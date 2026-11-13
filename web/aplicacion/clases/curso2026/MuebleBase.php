@@ -18,11 +18,28 @@ abstract class  MuebleBase{
                                 int $anio = 2020, string $fechaIniVenta = "01/01/2020", string $fechaFinVenta = "31/12/2040",
                                 float $precio = 30)
     {
-       
-
+        $numero = 0; 
+        if($this->puedeCrear($numero)== false)
+            throw new Exception("Ya se han creado el maximo de muebles posibles");
         
-    }
+        else{
 
+            if($this->setNombre($nombre)== true)
+                throw new Error("El nombre no puede estar vacio ni tampoco puede tener mas de 40 caracteres");
+            else
+                $this->setNombre($nombre);
+
+            $this->setFabricante($fabricante);
+            $this->setPais($pais);
+            $this->setAnio($anio);
+            $this->setFechaIniVenta($fechaIniVenta);
+            $this->setFechaFinVenta($fechaFinVenta);
+            $this->setPrecio($precio);
+
+            self::$mueblesCreados++;
+        }  
+    }
+    //--------------Setter's-----------------//
     public function setNombre(string $nombre) : bool {
           if (validaCadena($nombre,40,"") == false || $nombre == ""){
             return false;
@@ -90,4 +107,118 @@ abstract class  MuebleBase{
         $this->fechaIniVenta = $fechaIniVenta;
         return true;
     }
+
+    public function setFechaFinVenta(string $fechaFinVenta): bool{
+        if (!validaFecha($fechaFinVenta, "31/12/2040") || $fechaFinVenta == ""){
+            $this->fechaFinVenta = "31/12/2040";
+            return false;
+        }
+
+        $arrayFechaIni = explode("/" , $this->fechaIniVenta);
+
+        $diaIni =(int)$arrayFechaIni[0];
+        $mesIni =(int)$arrayFechaIni[1];
+        $añoIni =(int)$arrayFechaIni[2];
+
+        $arrayFechaFin = explode("/" , $fechaFinVenta);
+
+        $diaFin =(int)$arrayFechaFin[0];
+        $mesFin =(int)$arrayFechaFin[1];
+        $añoFin =(int)$arrayFechaFin[2];
+
+        if (!checkdate($mesFin, $diaFin, $añoFin)){
+            $this->fechaFinVenta = "31/12/2040";
+            return false;
+        }
+
+        if ($añoFin < $añoIni){
+            $this->fechaFinVenta = "31/12/2040";
+            return false; 
+        }
+
+        if ($añoFin == $añoIni && $mesFin < $mesIni){
+            $this->fechaFinVenta = "31/12/2040";
+            return false; 
+        }
+
+        if ($añoFin == $añoIni && $mesFin == $mesIni && $diaFin < $diaIni){
+            $this->fechaFinVenta = "31/12/2040";
+            return false; 
+        }
+
+        $this->fechaFinVenta = $fechaFinVenta;
+        return true;
+    }
+
+    public function setPrecio(float $precio) : bool{
+        if($precio < 30){
+            $this->precio = 30;
+            return false;
+        }
+
+        $this->precio = $precio;
+        return true;
+    }
+
+    //--------------Getter's-----------------//
+    public function getNombre(): string {
+    return $this->nombre;
+    }
+
+    public function getFabricante(): string {
+        return $this->fabricante;
+    }
+
+    public function getPais(): string {
+        return $this->pais;
+    }
+
+    public function getAnio(): int {
+        return $this->anio;
+    }
+
+    public function getFechaIniVenta(): string {
+        return $this->fechaIniVenta;
+    }
+
+    public function getFechaFinVenta(): string {
+        return $this->fechaFinVenta;
+    }
+
+    public function getPrecio(): float {
+        return $this->precio;
+    }
+
+    //--------------Prohibir la sobrecarga dinamica-----------------//
+    public function __set($name, $value)
+    {
+        throw new \Exception("No se permite la sobrecarga de propiedades dinamicas");
+    }
+
+    public function __get($name)
+    {
+        throw new \Exception("No se permite acceder a las propiedades dinamicas");
+    }
+    
+    //--------------Metodo Propiedades Adiccionales-----------------//
+    abstract public function damePropiedadesAdicionales(): array;
+
+    public static function puedeCrear(int &$numero): bool{
+        if(self::$mueblesCreados == self::MAXIMO_MUEBLES)
+            return false;
+        else{
+            $numero = (self::MAXIMO_MUEBLES - self::$mueblesCreados);
+            return true;
+        }
+    }
+
+    public function __toString()
+    {
+        return "MUEBLE de clase " . get_class($this) . " con nombre " . 
+                $this->getNombre() . ", fabricante " . $this->getFabricante() . 
+                ", fabricado en " . $this->getPais() . " a partir del año " . $this->getAnio() . 
+                ", vendido desde " . $this->getFechaIniVenta() . " hasta " . $this->getFechaFinVenta() . 
+                ", precio " . $this->getPrecio();
+    }
+    
 }
