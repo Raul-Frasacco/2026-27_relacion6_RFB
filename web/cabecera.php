@@ -14,17 +14,16 @@ if (MODO_TRABAJO=="produccion")
         error_reporting(E_ALL);  
 
 spl_autoload_register(function ($clase){
-    $ruta=RUTABASE."/scripts/clases/";
-    $fichero=$ruta."$clase.php";
-    
-    if (file_exists($fichero))
-        {
+    $rutas = [
+        RUTABASE . "/aplicacion/clases/curso2026/$clase.php",
+        RUTABASE . "/scripts/clases/$clase.php",
+    ];
+    foreach ($rutas as $fichero) {
+        if (file_exists($fichero)) {
             require_once($fichero);
+            return;
         }
-      else
-        {
-            throw new Exception("La clase $clase no se ha encontrado.");
-        }
+    }
 });
 
 include(RUTABASE."/aplicacion/plantilla/plantilla.php");

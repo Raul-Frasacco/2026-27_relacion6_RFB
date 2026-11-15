@@ -1,44 +1,36 @@
 <?php
-
-final class MuebleTradicional extends MuebleBase{
+final class MuebleTradicional extends MuebleBase
+{
     private float $peso = 15;
-    private string $serie = "S01";
+    private string $serie = 'S01';
 
-    
-    public function __construct(string $nombre, string $fabricante = "FaMu:", string $pais = "ESPAÑA", int $anio = 2020, string $fechaIniVenta = "01/01/2020", string $fechaFinVenta = "31/12/2040", float $precio = 30, float $peso = 15, string $serie = "S01")
+    public function __construct(string $nombre, string $fabricante = 'FaMu:', string $pais = 'ESPAÑA', int $anio = 2020,
+        string $fechaIniVenta = '01/01/2020', string $fechaFinVenta = '31/12/2040', float $precio = 30,
+        float $peso = 15, string $serie = 'S01')
     {
         parent::__construct($nombre, $fabricante, $pais, $anio, $fechaIniVenta, $fechaFinVenta, $precio);
-        $this->setPrecio($precio);
-        $this->setSerie($serie);
+        if (!$this->setPeso($peso)) $this->peso = 15;
+        if (!$this->setSerie($serie)) $this->serie = 'S01';
     }
 
-    public function setPeso(float $precio): bool{
-        if (!validaReal($precio, 15,300,15)){
-            $this->peso = 15;
-            return false;
-        }
-
-        $this->precio = $precio;
+    public function setPeso(float $peso): bool
+    {
+        if (!is_finite($peso) || !validaReal($peso, 15, 300, 15)) return false;
+        $this->peso = $peso;
         return true;
     }
-    public function getPeso() : float{
-        return $this->peso;
-    }
 
-    public function setSerie(string $serie): void{
+    public function getPeso(): float { return $this->peso; }
+
+    public function setSerie(string $serie): bool
+    {
+        $serie = trim($serie);
+        if ($serie === '') return false;
         $this->serie = $serie;
-    }
-    public function getSerie() : string{
-        return $this->serie;
+        return true;
     }
 
-    public function damePropiedadesAdicionales(): array
-    {
-        return ["peso", "serie"];
-    }
+    public function getSerie(): string { return $this->serie; }
 
-    public function __toString()
-    {
-        return parent::__toString() . ", el peso es de " . $this->getPeso() . "y la serie es " . $this->getSerie(); 
-    }
+    public function damePropiedadesAdicionales(): array { return ['Peso', 'Serie']; }
 }

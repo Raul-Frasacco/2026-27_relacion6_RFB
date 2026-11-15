@@ -68,7 +68,8 @@ function inicioCuerpo($cabecera, array $barraUbi = [])
             </div>
             <div id="barraMenu">
                 <ul>
-                    <li><a href="/index.php">Rellenar</a></li>
+                    <li><a href="/aplicacion/principal/index.php">Tienda</a></li>
+                    <li><a href="/aplicacion/principal/pruebas.php">Pruebas de clases</a></li>
                  </ul> 
                 
             </div>
