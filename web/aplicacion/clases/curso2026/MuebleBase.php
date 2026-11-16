@@ -3,6 +3,7 @@ require_once(__DIR__ . '/../../../scripts/Librerias/validacion.php');
 
 abstract class MuebleBase
 {
+    // Límite total de instancias y contador privado compartido por la clase.
     protected const MAXIMO_MUEBLES = 10;
     private static int $mueblesCreados = 0;
 
@@ -18,6 +19,7 @@ abstract class MuebleBase
     public function __construct(string $nombre, string $fabricante = 'FaMu:', string $pais = 'ESPAÑA',
         int $anio = 2020, string $fechaIniVenta = '01/01/2020', string $fechaFinVenta = '31/12/2040', float $precio = 30)
     {
+        // Comprueba el máximo, exige nombre y asigna el resto usando sus setters.
         $numero = 0;
         if (!self::puedeCrear($numero)) {
             throw new Exception('Ya se ha alcanzado el máximo de muebles permitidos.');
@@ -36,6 +38,7 @@ abstract class MuebleBase
         self::$mueblesCreados++;
     }
 
+    // Setters/getters con validación de las propiedades comunes.
     public function setNombre(string $nombre): bool
     {
         $nombre = trim($nombre);
@@ -114,6 +117,7 @@ abstract class MuebleBase
 
     abstract public function damePropiedadesAdicionales(): array;
 
+    // Incorpora pares nombre/valor; un parámetro impar final se ignora.
     public function anadirCaracteristicas(mixed ...$argumentos): void
     {
         $numero = count($argumentos);
@@ -127,6 +131,7 @@ abstract class MuebleBase
 
     public function getCaracteristicas(): Caracteristicas { return $this->caracteristicas; }
 
+    // Indica si queda capacidad y devuelve cuántos muebles caben.
     public static function puedeCrear(int &$numero): bool
     {
         $numero = max(0, self::MAXIMO_MUEBLES - self::$mueblesCreados);
@@ -135,6 +140,7 @@ abstract class MuebleBase
 
     public function __toString(): string
     {
+        // Genera la descripción común, las adicionales y las características.
         return 'MUEBLE de clase ' . get_class($this) . ' con nombre ' . $this->nombre . ', fabricante ' .
             $this->fabricante . ', fabricado en ' . $this->pais . ' a partir del año ' . $this->anio .
             ', vendido desde ' . $this->fechaIniVenta . ' hasta ' . $this->fechaFinVenta . ', precio ' .

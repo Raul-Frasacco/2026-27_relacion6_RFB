@@ -1,6 +1,7 @@
 <?php
 final class MuebleReciclado extends MuebleBase
 {
+    // Clase final con porcentaje reciclado entre 0 y 100.
     private int $porcentajeReciclado = 10;
 
     public function __construct(string $nombre, string $fabricante = 'FaMu:', string $pais = 'ESPAÑA', int $anio = 2020,

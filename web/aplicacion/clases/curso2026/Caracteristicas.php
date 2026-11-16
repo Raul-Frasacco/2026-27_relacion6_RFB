@@ -2,6 +2,7 @@
 
 class Caracteristicas implements Iterator 
 {
+    // Almacena las características dinámicas y controla el bloqueo ULTIMA.
     private array $_caract = [];
     private bool $_bloqueaNuevas = false;
     private array $_clavesIteracion = [];
@@ -39,6 +40,7 @@ class Caracteristicas implements Iterator
 
     public function rewind(): void
     {
+        // Iterator: prepara las claves en orden inverso al de incorporación para foreach.
         $this->_clavesIteracion = array_reverse(array_keys($this->_caract));
         $this->_posicion = 0;
     }
@@ -66,6 +68,7 @@ class Caracteristicas implements Iterator
 
     public function __toString(): string
     {
+        // Representa las parejas en el formato caracteristica:valor.
         $partes = [];
         foreach ($this->_caract as $clave => $valor) {
             if (is_bool($valor)) {

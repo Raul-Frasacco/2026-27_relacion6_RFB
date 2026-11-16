@@ -1,6 +1,7 @@
 <?php
 final class MuebleTradicional extends MuebleBase
 {
+    // Clase final con las propiedades Peso y Serie.
     private float $peso = 15;
     private string $serie = 'S01';
 

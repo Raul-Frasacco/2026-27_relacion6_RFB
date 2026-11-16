@@ -10,6 +10,7 @@ cabecera();
 finCabecera();
 inicioCuerpo('TIENDA', [['TEXTO' => 'Tienda', 'LINK' => '/aplicacion/principal/index.php'], ['TEXTO' => 'Muebles', 'LINK' => '']]);
 ?>
+<!-- Tabla del catálogo con índice, tipo, nombre y más propiedades. -->
 <h2>Catálogo de muebles</h2>
 <table class="tabla">
     <thead><tr><th>Índice</th><th>Tipo</th><th>Nombre</th><th>Fabricante</th><th>País</th><th>Precio</th></tr></thead>
@@ -26,6 +27,7 @@ inicioCuerpo('TIENDA', [['TEXTO' => 'Tienda', 'LINK' => '/aplicacion/principal/i
     </tbody>
 </table>
 
+<!-- Un formulario con selector y botones para mostrar o abrir la modificación. -->
 <h2>Consultar o modificar un mueble</h2>
 <form method="post" action="/aplicacion/principal/index.php">
     <label for="mueble">Mueble:</label>
@@ -40,7 +42,8 @@ inicioCuerpo('TIENDA', [['TEXTO' => 'Tienda', 'LINK' => '/aplicacion/principal/i
     <button class="boton" type="submit" name="accion" value="modificar" formaction="/aplicacion/principal/modificar.php" formtarget="_blank">Modificar Mueble</button>
 </form>
 
-<?php if ($accion === 'mostrar' && $seleccion !== false && isset($muebles[$seleccion])): $mueble = $muebles[$seleccion]; ?>
+<?php // Muestra cada propiedad mediante getter, sin convertir el mueble a cadena.
+if ($accion === 'mostrar' && $seleccion !== false && isset($muebles[$seleccion])): $mueble = $muebles[$seleccion]; ?>
     <h2>Datos del mueble <?= (int)$seleccion ?></h2>
     <dl>
         <dt>Tipo</dt><dd><?= htmlspecialchars((new ReflectionClass($mueble))->getShortName(), ENT_QUOTES, 'UTF-8') ?></dd>

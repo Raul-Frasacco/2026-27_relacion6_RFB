@@ -13,6 +13,7 @@ if (MODO_TRABAJO=="produccion")
     else 
         error_reporting(E_ALL);  
 
+// Autocarga las clases desde curso2026 según el nombre del fichero.
 spl_autoload_register(function ($clase){
     $rutas = [
         RUTABASE . "/aplicacion/clases/curso2026/$clase.php",

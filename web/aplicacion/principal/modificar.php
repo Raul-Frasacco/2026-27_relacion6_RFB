@@ -17,14 +17,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['guardar']) && $mueble
     $fin = trim($_POST['fechaFinVenta'] ?? '');
     $precio = filter_var($_POST['precio'] ?? null, FILTER_VALIDATE_FLOAT);
 
-    // Primera mitad validada mediante una instancia auxiliar y sus métodos set.
+    // Una mitad se valida con los setters de una instancia auxiliar.
     $aux = clone $mueble;
     if (!$aux->setNombre($nombre)) $errores[] = 'El nombre es obligatorio y admite hasta 40 caracteres.';
     if (!$aux->setFabricante($fabricante)) $errores[] = 'El fabricante no puede estar vacío.';
     if (!$aux->setPais($pais)) $errores[] = 'El país es obligatorio y admite hasta 20 caracteres.';
     if ($anio === false || !$aux->setAnio((int)$anio)) $errores[] = 'El año debe estar entre 2020 y el año actual.';
 
-    // La otra mitad se valida directamente mediante condiciones.
+    // La otra mitad (fechas, precio y campos específicos) se valida directamente.
     $fechaValida = static function (string $fecha): bool {
         if (!preg_match('/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/', $fecha, $partes)) return false;
         return checkdate((int)$partes[2], (int)$partes[1], (int)$partes[3]);
@@ -55,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['guardar']) && $mueble
         $adicional = [$porcentaje];
     }
 
+    // Solo si todas las restricciones se cumplen se actualiza el objeto de esta petición.
     if (!$errores) {
         $mueble->setNombre($nombre);
         $mueble->setFabricante($fabricante);
@@ -84,6 +85,7 @@ inicioCuerpo('MODIFICAR MUEBLE', [['TEXTO' => 'Tienda', 'LINK' => '/aplicacion/p
 <?php else: ?>
     <?php if ($errores): ?><div class="error"><ul><?php foreach ($errores as $error): ?><li><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></li><?php endforeach; ?></ul></div><?php endif; ?>
     <?php if ($guardado): ?><p>Datos recibidos y aplicados durante esta petición. Al no utilizar almacenamiento persistente, los cambios no se conservan al recargar.</p><?php endif; ?>
+    <!-- Formulario precargado con las propiedades comunes y las del tipo concreto. -->
     <form method="post" action="/aplicacion/principal/modificar.php">
         <input type="hidden" name="mueble" value="<?= (int)$indice ?>">
         <p><label>Nombre <input class="for_texto" name="nombre" maxlength="40" required value="<?= htmlspecialchars($mueble->getNombre(), ENT_QUOTES, 'UTF-8') ?>"></label></p>

@@ -50,6 +50,7 @@ function finCabecera()
 
 function inicioCuerpo($cabecera, array $barraUbi = [])
 {
+  // Requisito general: cabecera común, menú principal y barra de ubicación en todas las páginas.
     global $acceso;
 
 ?>
