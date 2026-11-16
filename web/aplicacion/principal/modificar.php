@@ -1,10 +1,12 @@
 <?php
 require_once dirname(__DIR__, 2) . '/cabecera.php';
 require_once __DIR__ . '/../clases/curso2026/MuebleBase.php';
+require_once __DIR__ . '/../clases/curso2026/Materiales.php';
 require_once __DIR__ . '/datos.php';
 
 $indice = filter_input(INPUT_POST, 'mueble', FILTER_VALIDATE_INT);
 $mueble = ($indice !== false && $indice !== null) ? ($muebles[$indice] ?? null) : null;
+$materiales = Materiales::cases();
 $errores = [];
 $guardado = false;
 
@@ -101,6 +103,17 @@ inicioCuerpo('MODIFICAR MUEBLE', [['TEXTO' => 'Tienda', 'LINK' => '/aplicacion/p
         <?php else: ?>
             <p><label>Porcentaje reciclado <input class="for_texto" type="number" name="porcentajeReciclado" min="0" max="100" required value="<?= $mueble->getPorcentajeReciclado() ?>"></label></p>
         <?php endif; ?>
+       <!-- Materiales -->
+        <label for="material">Material:</label>
+        <select id="material" name="material" required>
+        <?php foreach ($materiales as $indice => $material): ?>
+            <?php foreach ($material as $in=> $mat): ?>
+            <option value="<?= (int)$indice ?>" ?>
+                <?= (int)$mat ?> - 
+            </option>
+            <?php endforeach; ?>
+        <?php endforeach; ?>
+    </select>
         <button class="boton" type="submit" name="guardar" value="1">Guardar cambios</button>
     </form>
 <?php endif; ?>

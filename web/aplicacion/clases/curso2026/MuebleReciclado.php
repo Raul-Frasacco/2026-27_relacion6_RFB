@@ -6,9 +6,9 @@ final class MuebleReciclado extends MuebleBase
 
     public function __construct(string $nombre, string $fabricante = 'FaMu:', string $pais = 'ESPAÑA', int $anio = 2020,
         string $fechaIniVenta = '01/01/2020', string $fechaFinVenta = '31/12/2040', float $precio = 30,
-        int $porcentajeReciclado = 10)
+        Materiales $materiales = Materiales::hierro, int $porcentajeReciclado = 10, )
     {
-        parent::__construct($nombre, $fabricante, $pais, $anio, $fechaIniVenta, $fechaFinVenta, $precio);
+        parent::__construct($nombre, $fabricante, $pais, $anio, $fechaIniVenta, $fechaFinVenta, $precio, $materiales);
         if (!$this->setPorcentajeReciclado($porcentajeReciclado)) $this->porcentajeReciclado = 10;
     }
 

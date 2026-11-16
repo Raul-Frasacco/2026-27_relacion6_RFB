@@ -14,10 +14,12 @@ abstract class MuebleBase
     protected string $fechaIniVenta = '01/01/2020';
     protected string $fechaFinVenta = '31/12/2040';
     protected float $precio = 30;
+    protected Materiales $material = Materiales::hierro;
     private Caracteristicas $caracteristicas;
+   
 
     public function __construct(string $nombre, string $fabricante = 'FaMu:', string $pais = 'ESPAÑA',
-        int $anio = 2020, string $fechaIniVenta = '01/01/2020', string $fechaFinVenta = '31/12/2040', float $precio = 30)
+        int $anio = 2020, string $fechaIniVenta = '01/01/2020', string $fechaFinVenta = '31/12/2040', float $precio = 30, Materiales $material = Materiales::hierro)
     {
         // Comprueba el máximo, exige nombre y asigna el resto usando sus setters.
         $numero = 0;
@@ -35,6 +37,7 @@ abstract class MuebleBase
         if (!$this->setFechaIniVenta($fechaIniVenta)) $this->fechaIniVenta = '01/01/' . $this->anio;
         if (!$this->setFechaFinVenta($fechaFinVenta)) $this->fechaFinVenta = '31/12/2040';
         if (!$this->setPrecio($precio)) $this->precio = 30;
+        $this->setMaterial($material);
         self::$mueblesCreados++;
     }
 
@@ -97,6 +100,15 @@ abstract class MuebleBase
         return true;
     }
 
+    public function setMaterial(Materiales $material){
+        if ($material == null){
+            $this->material = Materiales::hierro;
+            return false;
+        }
+        $this->material = $material;
+        return true;
+    }
+
     public function getNombre(): string { return $this->nombre; }
     public function getFabricante(): string { return $this->fabricante; }
     public function getPais(): string { return $this->pais; }
@@ -104,6 +116,7 @@ abstract class MuebleBase
     public function getFechaIniVenta(): string { return $this->fechaIniVenta; }
     public function getFechaFinVenta(): string { return $this->fechaFinVenta; }
     public function getPrecio(): float { return $this->precio; }
+    public function getMaterial(): Materiales { return $this->material;}
 
     public function __set($name, $value): void
     {
@@ -138,6 +151,11 @@ abstract class MuebleBase
         return $numero > 0;
     }
 
+    // Metodo devuelve descripcion material
+    public function getMaterialDescripcion() : string{
+        return $this->material->name;
+    }
+
     public function __toString(): string
     {
         // Genera la descripción común, las adicionales y las características.
@@ -145,7 +163,7 @@ abstract class MuebleBase
             $this->fabricante . ', fabricado en ' . $this->pais . ' a partir del año ' . $this->anio .
             ', vendido desde ' . $this->fechaIniVenta . ' hasta ' . $this->fechaFinVenta . ', precio ' .
             $this->precio . $this->textoPropiedadesAdicionales() .
-            ($this->caracteristicas->__toString() !== '' ? ', ' . $this->caracteristicas : '');
+            ($this->caracteristicas->__toString() !== '' ? ', ' . $this->caracteristicas : '') . " de material " . $this->getMaterialDescripcion();
     }
 
     protected function textoPropiedadesAdicionales(): string

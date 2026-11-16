@@ -13,7 +13,7 @@ inicioCuerpo('TIENDA', [['TEXTO' => 'Tienda', 'LINK' => '/aplicacion/principal/i
 <!-- Tabla del catálogo con índice, tipo, nombre y más propiedades. -->
 <h2>Catálogo de muebles</h2>
 <table class="tabla">
-    <thead><tr><th>Índice</th><th>Tipo</th><th>Nombre</th><th>Fabricante</th><th>País</th><th>Precio</th></tr></thead>
+    <thead><tr><th>Índice</th><th>Tipo</th><th>Nombre</th><th>Fabricante</th><th>País</th><th>Precio</th><th>Material</th></tr></thead>
     <tbody>
     <?php foreach ($muebles as $indice => $mueble): ?>
         <tr class="<?= $indice % 2 === 0 ? 'par' : 'impar' ?>">
@@ -22,6 +22,7 @@ inicioCuerpo('TIENDA', [['TEXTO' => 'Tienda', 'LINK' => '/aplicacion/principal/i
             <td><?= htmlspecialchars($mueble->getFabricante(), ENT_QUOTES, 'UTF-8') ?></td>
             <td><?= htmlspecialchars($mueble->getPais(), ENT_QUOTES, 'UTF-8') ?></td>
             <td><?= number_format($mueble->getPrecio(), 2, ',', '.') ?> €</td>
+            <td><?= htmlspecialchars($mueble->getMaterialDescripcion(), ENT_QUOTES, 'UTF-8') ?></td>
         </tr>
     <?php endforeach; ?>
     </tbody>
@@ -58,6 +59,7 @@ if ($accion === 'mostrar' && $seleccion !== false && isset($muebles[$seleccion])
             <dt><?= htmlspecialchars($propiedad, ENT_QUOTES, 'UTF-8') ?></dt><dd><?= htmlspecialchars((string)$mueble->$getter(), ENT_QUOTES, 'UTF-8') ?></dd>
         <?php endforeach; ?>
         <dt>Características</dt><dd><?= htmlspecialchars((string)$mueble->getCaracteristicas(), ENT_QUOTES, 'UTF-8') ?></dd>
+        <dt>Material</dt><dd><?= $mueble->getMaterialDescripcion()?></dd>
     </dl>
 <?php elseif ($accion === 'mostrar'): ?>
     <p class="error">Selecciona un mueble válido.</p>

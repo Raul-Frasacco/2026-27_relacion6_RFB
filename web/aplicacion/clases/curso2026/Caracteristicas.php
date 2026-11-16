@@ -14,8 +14,13 @@ class Caracteristicas implements Iterator
         if ($esNueva && $this->_bloqueaNuevas) {
             throw new Exception("No se pueden añadir características nuevas después de ULTIMA.");
         }
+        // Si la caracteristica creada de forma dinamica se llama numero_serie la guardo en el array sin valor
+        if (mb_strtolower($clave) === "numero_serie"){
+            $this->_caract["numero_serie"];
+        }
+
         $this->_caract[$clave] = $valor;
-        if (strtoupper($clave) === 'ULTIMA') {
+        if (mb_strtoupper($clave) === 'ULTIMA') {
             $this->_bloqueaNuevas = true;
         }
     }
@@ -24,6 +29,19 @@ class Caracteristicas implements Iterator
     {
         if (!array_key_exists($clave, $this->_caract)) {
             throw new Exception("La característica $clave no existe.");
+        }
+
+        if (mb_strtolower($clave) === "numero_serie"){
+            $numFinal = "";
+            $arrayNum = [0,1,2,3,4,5,6,7,8,9];
+            for ($i = 0; $i <15; $i++){
+                $numAl = rand(0,14);
+                if($i == 0)
+                    $numFinal = (string)$arrayNum[$numAl];
+
+                $numFinal += (string)$arrayNum[$numAl];
+            }
+            return $numFinal;
         }
         return $this->_caract[$clave];
     }
@@ -41,7 +59,8 @@ class Caracteristicas implements Iterator
     public function rewind(): void
     {
         // Iterator: prepara las claves en orden inverso al de incorporación para foreach.
-        $this->_clavesIteracion = array_reverse(array_keys($this->_caract));
+        $this->_clavesIteracion = $this->_caract["numero_serie"];
+        $this->_clavesIteracion += array_reverse(array_keys($this->_caract));
         $this->_posicion = 0;
     }
 

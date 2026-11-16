@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__DIR__, 2) . '/cabecera.php';
 require_once __DIR__ . '/../clases/curso2026/MuebleBase.php';
+require_once __DIR__ . '/../clases/curso2026/Materiales.php';
 
 inicioCabecera('Pruebas de clases');
 cabecera();
@@ -88,6 +89,10 @@ try {
     <?= $mueble->setPrecio(10) ? 'aceptado' : 'rechazado' ?>;
     precio conservado: <?= $mueble->getPrecio() ?>.
 </p>
+<?php
+
+
+?>
 
 <p><a href="/aplicacion/principal/index.php">Volver a la tienda</a></p>
 
